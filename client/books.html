@@ -1,0 +1,24 @@
+<template name="books">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<h3 id="title">Book Title</h3>
+		</div>
+	</div><br/>
+	<div class="row">
+			{{> spinner}}		
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				<img id="image" src="/book.jpg" style="float:left;" class="img-thumbnail"/>	
+			</div>
+			<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+				
+				<b><i id="subtitle"></i></b><br/>
+				<small><strong><u>Description</u></strong></small><br/>
+				<p id="desc">				
+				</p><br/>
+				Publisher: <b id="publisher"></b><br/>
+				Year: <b id="year"></b><br/><br/>
+				<button id='download' href="" target="_system" class="btn btn-primary">Download this Book</button>
+			</div>
+		
+	</div>
+</template>
