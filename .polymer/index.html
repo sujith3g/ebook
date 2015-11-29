@@ -1,0 +1,55 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+<title>eBooks</title>
+<link href="/img/icon.png" rel="shortcut icon">
+
+<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+<link href="bower_components/load-awesome/css/line-scale-pulse-out-rapid.min.css" rel="stylesheet">
+<style is="custom-style">
+  paper-toolbar{
+        --paper-toolbar-background: var(--paper-teal-700);
+        --paper-toolbar-color: white;
+  }
+  .search-icon-wraper{
+    border-radius: 2px 0px 0px 2px;
+  }
+  .search-icon{
+    vertical-align: -webkit-baseline-middle;
+  }
+  .search-input{
+        border-radius: 0px 2px 2px 0px;
+  }
+  .search-icon-wraper,.search-input{
+        background:  var(--paper-teal-500);
+        color: white;
+        border: none;
+        font-size: 18px;
+        padding: 0 12px;
+        height: 36px;
+  }
+</style>
+</head>
+<body>
+  <paper-drawer-panel id="drawer">
+    <paper-header-panel drawer>
+      <paper-toolbar>
+        <paper-icon-button icon="menu" on-tap="menuAction"></paper-icon-button>
+        <div class="title">Tech eBooks</div>
+      </paper-toolbar>
+    </paper-header-panel>
+    <paper-header-panel main>
+      <paper-toolbar>
+        <div class="search-icon-wraper">
+          <iron-icon class="search-icon" icon="icons:search"></iron-icon>
+        </div>
+        <input class="flex search-input" id="input" on-keyup="search" placeholder="Search">
+        <paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>
+      </paper-toolbar>
+
+    </paper-header-panel>
+  </paper-drawer-panel>
+</body>
+</html>
