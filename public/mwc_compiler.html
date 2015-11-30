@@ -24040,6 +24040,64 @@ paper-calendar {
     });
   </script>
 </dom-module>
+<dom-module id="book-search" assetpath="//">
+  <template>
+  <style>
+    paper-toolbar{
+      --paper-toolbar-background: var(--paper-teal-700);
+      --paper-toolbar-color: white;
+    }
+    .search-icon-wraper{
+      border-radius: 2px 0px 0px 2px;
+    }
+    .search-icon{
+      vertical-align: -webkit-baseline-middle;
+    }
+    .search-input{
+      border-radius: 0px 2px 2px 0px;
+    }
+    .search-icon-wraper,.search-input{
+      background:  var(--paper-teal-500);
+      color: white;
+      border: none;
+      font-size: 18px;
+      padding: 0 12px;
+      height: 36px;
+    }
+  </style>
+   <paper-drawer-panel id="drawer">
+      <paper-header-panel drawer="">
+        <paper-toolbar>
+          <paper-icon-button icon="menu" on-tap="menuAction"></paper-icon-button>
+          <div class="title">Tech eBooks</div>
+        </paper-toolbar>
+      </paper-header-panel>
+      <paper-header-panel main="">
+        <paper-toolbar>
+          <div class="search-icon-wraper">
+            <iron-icon class="search-icon" icon="icons:search"></iron-icon>
+          </div>
+          <input class="flex search-input" id="input" on-keyup="search" placeholder="Search">
+          <paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>
+        </paper-toolbar>
+        
+          <book-list id="list_view" query=""></book-list>
+          
+      </paper-header-panel>
+    </paper-drawer-panel>
+
+  </template>
+  <script>
+  Polymer({
+    is: 'book-search',
+    search: function(evt){
+      this.$.list_view.query = this.$.input.value;
+      //console.log(this.$.input.value);
+    }
+
+  });
+  </script>
+</dom-module>
 <dom-module id="book-list" assetpath="//">
   <template>
     <style>
@@ -24078,6 +24136,7 @@ paper-calendar {
         padding: 20px;
         background-color: white;
         border: 1px solid #ddd;
+        border-radius: 2px;
 
         cursor: pointer;
         margin-bottom: 10px;
@@ -24117,7 +24176,7 @@ paper-calendar {
       }
 
       .item:hover .shortText::after {
-        content: ' [+]';
+        ##content: ' [+]';
         color: gray;
       }
 
@@ -24130,22 +24189,22 @@ paper-calendar {
       }
 
       .item.expanded:hover .longText::after {
-        content: ' [–]';
+        ##content: ' [–]';
       }
     </style>
-    <iron-ajax url="/data.json" last-response="{{response}}" auto=""></iron-ajax>
+    <iron-ajax id="data-source" verbose="true" abcd="http://it-ebooks-api.info/v1/search/" url="http://it-ebooks-api.info/v1/search/head%20first" last-response="{{response}}" auto=""></iron-ajax>
      
       <iron-list id="list" items="[[response.Books]]" as="item">
         <template>
           <div on-tap="_collapseExpand">
-            <div class$="[[getClassForItem(item, item.SubTitle)]]" tabindex="0">
+            <div class$="[[getClassForItem(item, item.ID)]]" tabindex="0">
               <img class="avatar" src="[[item.Image]]">
               <div class="pad">
                 <div class="primary">[[item.Title]]</div>
                 <div class="shortText">[[item.SubTitle]]</div>
                 <div class="longText">[[item.Description]]</div>
               </div>
-              <iron-icon icon$="[[iconForItem(item)]]"></iron-icon>
+              
             </div>
           </div>
         </template>
@@ -24157,7 +24216,15 @@ paper-calendar {
         properties: {
           items: {
             type: Array
-          }
+            },
+          api_url:{
+            type: String,
+            value: "http://it-ebooks-api.info/v1/search/"
+          },
+          query:{
+            type: String,
+            observer: '_queryChanged'
+            }
         },
 
         _collapseExpand: function(e) {
@@ -24168,13 +24235,22 @@ paper-calendar {
           list.set('items.' + index + '.expanded', !isExpanded);
           list.updateSizeForItem(e.model.index);
         },
+        _queryChanged: function(newValue, oldValue){
+          var search_term = newValue;
+          var keywords = ["Ubuntu", "Head First", "Javascript", "PHP",
+          "Python", "HTML", "Ruby", "ASP", "Manual", "Windows", "Linux",
+          "Mac"];
+          var random = keywords[Math.floor(Math.random() * keywords.length)];
+          var url = this.api_url + encodeURIComponent(search_term ? search_term : random);
+          this.$["data-source"].url = url;
+          //console.log(random);
+        },
 
         iconForItem: function(item) {
           return item ? (item.integer < 50 ? 'star-border' : 'star') : '';
         },
 
         getClassForItem: function(item, expanded) {
-          console.log(expanded);
           return expanded ? 'item expanded' : 'item';
         }
       });

@@ -36,6 +36,7 @@
         padding: 20px;
         background-color: white;
         border: 1px solid #ddd;
+        border-radius: 2px;
 
         cursor: pointer;
         margin-bottom: 10px;
@@ -75,7 +76,7 @@
       }
 
       .item:hover .shortText::after {
-        content: ' [+]';
+        ##content: ' [+]';
         color: gray;
       }
 
@@ -88,10 +89,12 @@
       }
 
       .item.expanded:hover .longText::after {
-        content: ' [–]';
+        ##content: ' [–]';
       }
     </style>
-    <iron-ajax url="/data.json" last-response="{{response}}" auto></iron-ajax>
+    <iron-ajax id="data-source" verbose="true"
+    abcd="http://it-ebooks-api.info/v1/search/" 
+     url="http://it-ebooks-api.info/v1/search/head%20first" last-response="{{response}}" auto></iron-ajax>
      <!-- <paper-toolbar>
         <paper-icon-button icon="arrow-back" alt="Back"></paper-icon-button>
         <div class="flex"></div>
@@ -102,14 +105,14 @@
       <iron-list id="list" items="[[response.Books]]" as="item">
         <template>
           <div on-tap="_collapseExpand">
-            <div class$="[[getClassForItem(item, item.SubTitle)]]" tabindex="0">
+            <div class$="[[getClassForItem(item, item.ID)]]" tabindex="0">
               <img class="avatar" src="[[item.Image]]">
               <div class="pad">
                 <div class="primary">[[item.Title]]</div>
                 <div class="shortText">[[item.SubTitle]]</div>
                 <div class="longText">[[item.Description]]</div>
               </div>
-              <iron-icon icon$="[[iconForItem(item)]]"></iron-icon>
+              <!-- <iron-icon icon$="[[iconForItem(item)]]"></iron-icon>-->
             </div>
           </div>
         </template>
@@ -121,7 +124,15 @@
         properties: {
           items: {
             type: Array
-          }
+            },
+          api_url:{
+            type: String,
+            value: "http://it-ebooks-api.info/v1/search/"
+          },
+          query:{
+            type: String,
+            observer: '_queryChanged'
+            }
         },
 
         _collapseExpand: function(e) {
@@ -132,13 +143,22 @@
           list.set('items.' + index + '.expanded', !isExpanded);
           list.updateSizeForItem(e.model.index);
         },
+        _queryChanged: function(newValue, oldValue){
+          var search_term = newValue;
+          var keywords = ["Ubuntu", "Head First", "Javascript", "PHP",
+          "Python", "HTML", "Ruby", "ASP", "Manual", "Windows", "Linux",
+          "Mac"];
+          var random = keywords[Math.floor(Math.random() * keywords.length)];
+          var url = this.api_url + encodeURIComponent(search_term ? search_term : random);
+          this.$["data-source"].url = url;
+          //console.log(random);
+        },
 
         iconForItem: function(item) {
           return item ? (item.integer < 50 ? 'star-border' : 'star') : '';
         },
 
         getClassForItem: function(item, expanded) {
-          console.log(expanded);
           return expanded ? 'item expanded' : 'item';
         }
       });
