@@ -7,6 +7,8 @@
         "bower_components/font-roboto/roboto.html",
         "bower_components/iron-flex-layout/classes/iron-flex-layout.html",
         "bower_components/iron-icons/iron-icons.html",
+        "bower_components/iron-ajax/iron-ajax.html",
+        "bower_components/iron-list/iron-list.html",
         "bower_components/mwc-layout/mwc-layout.html",
         "bower_components/neon-animation/neon-animatable.html",
         "bower_components/neon-animation/neon-animated-pages.html",
@@ -31,6 +33,8 @@
         "bower_components/paper-slider/paper-slider.html",
         "bower_components/paper-toast/paper-toast.html",
         "bower_components/paper-toggle-button/paper-toggle-button.html",
-        "bower_components/paper-toolbar/paper-toolbar.html"
+        "bower_components/paper-toolbar/paper-toolbar.html",
+
+        "book-list.html"
     ]
 }

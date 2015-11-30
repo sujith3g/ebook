@@ -1,0 +1,146 @@
+<dom-module id="book-list">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-fit);
+        @apply(--layout-vertical);
+        @apply(--paper-font-common-base);
+      }
+
+      paper-toolbar {
+        background: var(--google-green-700);
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+        font-weight: bold;
+        z-index: 1;
+      }
+
+      paper-toolbar paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      iron-list {
+        background-color: var(--paper-grey-200, #eee);
+        padding-top: 1px;
+        padding-bottom: 16px;
+        --iron-list-items-container: {
+          max-width: 800px;
+          margin: auto;
+          margin-top: 60px;
+          margin-bottom: 60px;
+          border-bottom: 1px solid #ddd;
+        };
+      }
+
+      .item {
+        @apply(--layout-horizontal);
+        padding: 20px;
+        background-color: white;
+        border: 1px solid #ddd;
+
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+
+      .item:focus {
+        outline: 0;
+        border-color: #666;
+      }
+
+      .avatar {
+        height: 130px;
+        width: 100px;
+        box-sizing: border-box;
+        background-color: #DDD;
+        vertical-align: -webkit-baseline-middle;
+      }
+
+      .pad {
+        padding: 0 16px;
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+      }
+
+      .primary {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .shortText, .longText {
+        font-size: 14px;
+      }
+
+      .longText {
+        color: gray;
+        display: none;
+      }
+
+      .item:hover .shortText::after {
+        content: ' [+]';
+        color: gray;
+      }
+
+      .item.expanded:hover .shortText::after {
+        content: '';
+      }
+
+      .item.expanded .longText {
+        display: block;
+      }
+
+      .item.expanded:hover .longText::after {
+        content: ' [–]';
+      }
+    </style>
+    <iron-ajax url="/data.json" last-response="{{response}}" auto></iron-ajax>
+     <!-- <paper-toolbar>
+        <paper-icon-button icon="arrow-back" alt="Back"></paper-icon-button>
+        <div class="flex"></div>
+        <paper-icon-button icon="search" alt="Search"></paper-icon-button>
+        <paper-icon-button icon="more-vert" alt="More options"></paper-icon-button>
+        <div class="bottom title">Collapsable items using iron-list</div>
+        </paper-toolbar>-->
+      <iron-list id="list" items="[[response.Books]]" as="item">
+        <template>
+          <div on-tap="_collapseExpand">
+            <div class$="[[getClassForItem(item, item.SubTitle)]]" tabindex="0">
+              <img class="avatar" src="[[item.Image]]">
+              <div class="pad">
+                <div class="primary">[[item.Title]]</div>
+                <div class="shortText">[[item.SubTitle]]</div>
+                <div class="longText">[[item.Description]]</div>
+              </div>
+              <iron-icon icon$="[[iconForItem(item)]]"></iron-icon>
+            </div>
+          </div>
+        </template>
+      </iron-list>
+  </template>
+  <script>
+      Polymer({
+        is: 'book-list',
+        properties: {
+          items: {
+            type: Array
+          }
+        },
+
+        _collapseExpand: function(e) {
+          var list = this.$.list;
+          var index = e.model.index;
+          var isExpanded = list.items[index].expanded;
+
+          list.set('items.' + index + '.expanded', !isExpanded);
+          list.updateSizeForItem(e.model.index);
+        },
+
+        iconForItem: function(item) {
+          return item ? (item.integer < 50 ? 'star-border' : 'star') : '';
+        },
+
+        getClassForItem: function(item, expanded) {
+          console.log(expanded);
+          return expanded ? 'item expanded' : 'item';
+        }
+      });
+  </script>
+</dom-module>
