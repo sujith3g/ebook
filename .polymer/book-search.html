@@ -46,7 +46,7 @@
         <!--<div class="center-center vertical layout">-->
         <neon-animated-pages class="fit" id="pages" selected="0">
           <book-list id="list_view" query="" on-item-click="_onItemClick"></book-list>
-          <full-view on-close="_onClose"></full-view>
+          <full-view on-close="_onClose" id="full_view"></full-view>
         </neon-animated-pages>
           <!--</div>-->
       </paper-header-panel>
@@ -63,7 +63,8 @@
     },
     _onItemClick: function(e) {
       this.$.pages.selected = 1;
-      console.log(e);
+      this.$.full_view.item = e.detail.item.ID;
+      console.log(e.detail.item.ID);
     },
     _onClose: function() {
       this.$.pages.selected = 0;

@@ -36,19 +36,47 @@
         #e0e0e0 16px
       );
     }
-
+    paper-card {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .cover{
+      display: block;
+      margin: auto;
+    }
   </style>
 
   <template>
-
+    <iron-ajax id="api" verbose="true" url="" last-response="{{response}}" auto></iron-ajax>
     <paper-toolbar>
-    <div class="title">Title of the item</div>
+    <div class="title">{{response.Title}}</div>
       <paper-icon-button id="button" class="end-justified" icon="clear" on-click="_onClearButtonClick"></paper-icon-button>
     </paper-toolbar>
 
     <div id="main" class="main">
       <div class="image-container">
         <div class="image">
+          <paper-card >
+            <div class="card-content">
+            <b><span>{{response.SubTitle}}</span></b>
+            <p>{{response.Description}}</p>
+            <div class="horizontal layout">
+              <div class="flex">
+                <img class="center-justified cover" src="{{response.Image}}"/>
+              </div>
+              <div class="flex">
+                Publisher : {{response.Publisher}}<br/>
+                Author : {{response.Author}}<br/>
+                Year : {{response.Year}}<br/>
+                ISBN : {{response.ISBN}}<br/>
+                Pages : {{response.Page}}<br/>
+              </div>
+            </div>
+            </div>
+            <div class="card-actions">
+              <paper-icon-button id="download_btn" url="{{response.Download}}" icon="cloud-download" title="cloud-upload"></paper-icon-button>
+            </div>
+          </paper-card>
         </div>
       </div>
     </div>
@@ -69,6 +97,14 @@
 
     properties: {
 
+      item: {
+        type: String,
+        observer: "_itemChanged"
+      },
+      base_url: {
+        type: String,
+        value: "http://it-ebooks-api.info/v1/book/"
+      },
       sharedElements: {
         type: Object,
         value: function() {
@@ -109,6 +145,10 @@
 
     _onClearButtonClick: function() {
       this.fire('close');
+    },
+    _itemChanged: function(newValue, oldValue){
+      //console.log(newValue, this.item);
+      this.$.api.url = this.base_url + newValue;
     }
 
   });
