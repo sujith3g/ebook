@@ -24055,6 +24055,7 @@ paper-calendar {
     }
     .search-input{
       border-radius: 0px 2px 2px 0px;
+      outline: none;
     }
     .search-icon-wraper,.search-input{
       background:  var(--paper-teal-500);
@@ -24063,6 +24064,9 @@ paper-calendar {
       font-size: 18px;
       padding: 0 12px;
       height: 36px;
+    }
+    neon-animated-pages {
+      height: 100%;
     }
   </style>
    <paper-drawer-panel id="drawer">
@@ -24081,7 +24085,10 @@ paper-calendar {
           <paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>
         </paper-toolbar>
         
-          <book-list id="list_view" query=""></book-list>
+        <neon-animated-pages class="fit" id="pages" selected="0">
+          <book-list id="list_view" query="" on-item-click="_onItemClick"></book-list>
+          <full-view on-close="_onClose"></full-view>
+        </neon-animated-pages>
           
       </paper-header-panel>
     </paper-drawer-panel>
@@ -24091,13 +24098,136 @@ paper-calendar {
   Polymer({
     is: 'book-search',
     search: function(evt){
+      console.log(this.$);
       this.$.list_view.query = this.$.input.value;
       //console.log(this.$.input.value);
+    },
+    _onItemClick: function(e) {
+      this.$.pages.selected = 1;
+      console.log(e);
+    },
+    _onClose: function() {
+      this.$.pages.selected = 0;
     }
-
   });
   </script>
 </dom-module>
+<dom-module id="full-view" assetpath="//">
+
+  <style>
+
+    :host {
+      @apply(--layout-vertical);
+      background: transparent!!important;
+    }
+    paper-toolbar{
+      --paper-toolbar-background: var(--paper-teal-300);
+      --paper-toolbar-color: white;
+    }
+
+    .main {
+      background: white;
+      @apply(--layout-flex);
+      @apply(--layout-scroll);
+      @apply(--shadow-elevation-8dp);
+    }
+
+    .image-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 100%;
+    }
+
+    .image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        45deg,
+        #f5f5f5,
+        #f5f5f5 8px,
+        #e0e0e0 8px,
+        #e0e0e0 16px
+      );
+    }
+
+  </style>
+
+  <template>
+
+    <paper-toolbar>
+    <div class="title">Title of the item</div>
+      <paper-icon-button id="button" class="end-justified" icon="clear" on-click="_onClearButtonClick"></paper-icon-button>
+    </paper-toolbar>
+
+    <div id="main" class="main">
+      <div class="image-container">
+        <div class="image">
+        </div>
+      </div>
+    </div>
+
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'full-view',
+
+    behaviors: [
+      Polymer.NeonAnimatableBehavior
+    ],
+
+    properties: {
+
+      sharedElements: {
+        type: Object,
+        value: function() {
+          return {
+            'hero': this.$.main
+          };
+        }
+      },
+
+      animationConfig: {
+        type: Object,
+        value: function() {
+          return {
+            'entry': [{
+              name: 'fade-in-animation',
+              node: this.$.button
+            }, {
+              name: 'hero-animation',
+              id: 'hero',
+              toPage: this
+            }],
+
+            'exit': [{
+              name: 'fade-out-animation',
+              node: this.$.button
+            }, {
+              name: 'scale-down-animation',
+              node: this.$.main,
+              transformOrigin: '50% 50%',
+              axis: 'y'
+            }]
+
+          }
+        }
+      }
+
+    },
+
+    _onClearButtonClick: function() {
+      this.fire('close');
+    }
+
+  });
+
+</script>
 <dom-module id="book-list" assetpath="//">
   <template>
     <style>
@@ -24213,6 +24343,9 @@ paper-calendar {
   <script>
       Polymer({
         is: 'book-list',
+        behaviors: [
+          Polymer.NeonAnimatableBehavior
+        ],
         properties: {
           items: {
             type: Array
@@ -24224,13 +24357,50 @@ paper-calendar {
           query:{
             type: String,
             observer: '_queryChanged'
+            },
+
+          animationConfig: {
+            type: Object,
+            value: function() {
+              return {
+                'entry': [{
+                  name: 'fade-in-animation',
+                  node: this.$.button
+                }],
+
+                'exit': [{
+                  name: 'fade-out-animation',
+                  node: this.$.button
+                }, {
+                  name: 'hero-animation',
+                  id: 'hero',
+                  fromPage: this
+                }]
+              };
             }
+          }
+
         },
 
         _collapseExpand: function(e) {
           var list = this.$.list;
           var index = e.model.index;
           var isExpanded = list.items[index].expanded;
+
+          var itemData = list.items[index];
+          //console.log(e.target,e.model);
+          var target = e.target;
+//          while (target !== this && !target._templateInstance) {
+//            target = target.parentNode;
+//          }
+
+          // configure the page animation
+          this.sharedElements = {
+            'hero': target,
+          };
+          this.fire('item-click',{
+            item :itemData 
+          });
 
           list.set('items.' + index + '.expanded', !isExpanded);
           list.updateSizeForItem(e.model.index);

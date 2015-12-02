@@ -121,6 +121,9 @@
   <script>
       Polymer({
         is: 'book-list',
+        behaviors: [
+          Polymer.NeonAnimatableBehavior
+        ],
         properties: {
           items: {
             type: Array
@@ -132,13 +135,50 @@
           query:{
             type: String,
             observer: '_queryChanged'
+            },
+
+          animationConfig: {
+            type: Object,
+            value: function() {
+              return {
+                'entry': [{
+                  name: 'fade-in-animation',
+                  node: this.$.button
+                }],
+
+                'exit': [{
+                  name: 'fade-out-animation',
+                  node: this.$.button
+                }, {
+                  name: 'hero-animation',
+                  id: 'hero',
+                  fromPage: this
+                }]
+              };
             }
+          }
+
         },
 
         _collapseExpand: function(e) {
           var list = this.$.list;
           var index = e.model.index;
           var isExpanded = list.items[index].expanded;
+
+          var itemData = list.items[index];
+          //console.log(e.target,e.model);
+          var target = e.target;
+//          while (target !== this && !target._templateInstance) {
+//            target = target.parentNode;
+//          }
+
+          // configure the page animation
+          this.sharedElements = {
+            'hero': target,
+          };
+          this.fire('item-click',{
+            item :itemData 
+          });
 
           list.set('items.' + index + '.expanded', !isExpanded);
           list.updateSizeForItem(e.model.index);

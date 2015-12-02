@@ -36,6 +36,7 @@
         "bower_components/paper-toolbar/paper-toolbar.html",
 
         "book-search.html",
+        "full-view.html",
         "book-list.html"
     ]
 }

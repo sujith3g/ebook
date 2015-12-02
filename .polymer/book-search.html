@@ -13,6 +13,7 @@
     }
     .search-input{
       border-radius: 0px 2px 2px 0px;
+      outline: none;
     }
     .search-icon-wraper,.search-input{
       background:  var(--paper-teal-500);
@@ -21,6 +22,9 @@
       font-size: 18px;
       padding: 0 12px;
       height: 36px;
+    }
+    neon-animated-pages {
+      height: 100%;
     }
   </style>
    <paper-drawer-panel id="drawer">
@@ -40,7 +44,10 @@
           <paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>
         </paper-toolbar>
         <!--<div class="center-center vertical layout">-->
-          <book-list id="list_view" query=""></book-list>
+        <neon-animated-pages class="fit" id="pages" selected="0">
+          <book-list id="list_view" query="" on-item-click="_onItemClick"></book-list>
+          <full-view on-close="_onClose"></full-view>
+        </neon-animated-pages>
           <!--</div>-->
       </paper-header-panel>
     </paper-drawer-panel>
@@ -50,10 +57,17 @@
   Polymer({
     is: 'book-search',
     search: function(evt){
+      console.log(this.$);
       this.$.list_view.query = this.$.input.value;
       //console.log(this.$.input.value);
+    },
+    _onItemClick: function(e) {
+      this.$.pages.selected = 1;
+      console.log(e);
+    },
+    _onClose: function() {
+      this.$.pages.selected = 0;
     }
-
   });
   </script>
 </dom-module>
