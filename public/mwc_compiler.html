@@ -24613,12 +24613,17 @@ paper-calendar {
       );
     }
     paper-card {
-      width: 100%;
-      margin-bottom: 16px;
+      width: auto;
+      margin: 10%;
+      display: block;
+      #margin-bottom: 16px;
     }
     .cover{
       display: block;
       margin: auto;
+    }
+    .details{
+      @apply(--layout-flex-2);
     }
   </style>
 
@@ -24637,10 +24642,10 @@ paper-calendar {
             <b><span>{{response.SubTitle}}</span></b>
             <p>{{response.Description}}</p>
             <div class="horizontal layout">
-              <div class="flex">
+              <div class="img-wrapper flex">
                 <img class="center-justified cover" src="{{response.Image}}">
               </div>
-              <div class="flex">
+              <div class="details">
                 Publisher : {{response.Publisher}}<br>
                 Author : {{response.Author}}<br>
                 Year : {{response.Year}}<br>
