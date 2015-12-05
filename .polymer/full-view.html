@@ -10,6 +10,11 @@
       --paper-toolbar-background: var(--paper-teal-500);
       --paper-toolbar-color: white;
     }
+    paper-item{
+      max-height: 62px;
+      border: rgba(128, 128, 128, 0.25) solid;
+      border-width: 1px 0px 0px 0px;
+    }
     .colored-icon{
       #float:right;
       color: var(--paper-teal-500);
@@ -50,18 +55,24 @@
       display: block;
       margin: auto;
       padding-top: 12px;
+      @apply(--shadow-elevation-2dp);
     }
     .details{
-      @apply(--layout-flex-2);
+      width: auto;
     }
     .list {
-      padding-top: 12px;
+      #padding-top: 12px;
       background-color: white;
-      display: inline-block;
-      width: 320px;
+      display: block;
+      min-width: 240px;
+      max-width: 320px;
       height: auto;
-      margin: 12px;
+      margin: auto;
       @apply(--shadow-elevation-2dp);
+    }
+    .text-content{
+      margin: 10px;
+      padding: 5px;
     }
     .description{
       text-indent: 30px;
@@ -84,15 +95,19 @@
         <div class="image">
           <paper-card >
             <div class="card-content">
-            <b><span class="subtitle">{{response.SubTitle}}</span></b>
-            <p class="description">{{response.Description}}</p>
-            <div class="horizontal layout">
-              <div class="img-wrapper flex">
-                <img class="center-justified cover" src="{{response.Image}}"/>
+              <div class="horizontal layout">
+                  <div class="img-wrapper flex">
+                  <img class="center-justified cover" src="{{response.Image}}"/>
+                </div>
               </div>
-              <div class="details">
+              <div class="text-content">
+              <b><span class="subtitle">{{response.SubTitle}}</span></b></br>
+              <p class="description">{{response.Description}}</p>
+              </div>
+            <div class="horizontal layout">
+              <div class="details flex">
               <!--<h4>Book Details</h4>-->
-                <div class="list" role="listbox">
+                <div class="list center-justified" role="listbox">
                   <paper-item>
                     <paper-item-body two-line class="layout vertical">
                       <div>{{response.Publisher}}</div>
