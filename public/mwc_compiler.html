@@ -24580,24 +24580,6 @@ paper-calendar {
       --paper-toolbar-background: var(--paper-teal-700);
       --paper-toolbar-color: white;
     }
-    .search-icon-wraper{
-      border-radius: 2px 0px 0px 2px;
-    }
-    .search-icon{
-      vertical-align: -webkit-baseline-middle;
-    }
-    .search-input{
-      border-radius: 0px 2px 2px 0px;
-      outline: none;
-    }
-    .search-icon-wraper,.search-input{
-      background:  var(--paper-teal-500);
-      color: white;
-      border: none;
-      font-size: 18px;
-      padding: 0 12px;
-      height: 36px;
-    }
     neon-animated-pages {
       #height: 100%;
     }
@@ -24609,14 +24591,6 @@ paper-calendar {
         </paper-toolbar>
       </paper-header-panel>
       <paper-header-panel main="">
-        <paper-toolbar>
-          <paper-icon-button icon="menu" on-tap="menuAction" paper-drawer-toggle=""></paper-icon-button>
-          <div class="search-icon-wraper">
-            <iron-icon class="search-icon" icon="icons:search"></iron-icon>
-          </div>
-          <input class="flex search-input" id="input" on-keyup="search" placeholder="Search">
-          
-        </paper-toolbar>
         
         <neon-animated-pages class="fit" id="pages" selected="0">
           <book-list id="list_view" query="" on-item-click="_onItemClick"></book-list>
@@ -24882,18 +24856,10 @@ paper-calendar {
         @apply(--layout-vertical);
         @apply(--paper-font-common-base);
       }
-
-      paper-toolbar {
-        background: var(--google-green-700);
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-        font-weight: bold;
-        z-index: 1;
+      paper-toolbar{
+          --paper-toolbar-background: var(--paper-teal-700);
+        --paper-toolbar-color: white;
       }
-
-      paper-toolbar paper-icon-button {
-        --paper-icon-button-ink-color: white;
-      }
-
       iron-list {
         background-color: var(--paper-grey-200, #eee);
         padding-top: 1px;
@@ -24967,104 +24933,136 @@ paper-calendar {
       .item.expanded:hover .longText::after {
         ##content: ' [–]';
       }
+      .search-icon-wraper{
+      border-radius: 2px 0px 0px 2px;
+    }
+    .search-icon{
+      vertical-align: -webkit-baseline-middle;
+    }
+    .search-input{
+      border-radius: 0px 2px 2px 0px;
+      outline: none;
+    }
+    .search-icon-wraper,.search-input{
+      background:  var(--paper-teal-500);
+      color: white;
+      border: none;
+      font-size: 18px;
+      padding: 0 12px;
+      height: 36px;
+    }
     </style>
-    <iron-ajax id="data-source" verbose="true" abcd="http://it-ebooks-api.info/v1/search/" url="http://it-ebooks-api.info/v1/search/head%20first" last-response="{{response}}" auto=""></iron-ajax>
-     
-      <iron-list id="list" items="[[response.Books]]" as="item">
-        <template>
-          <div on-tap="_collapseExpand">
-            <div class$="[[getClassForItem(item, item.ID)]]" tabindex="0">
-              <img class="avatar" src="[[item.Image]]">
-              <div class="pad">
-                <div class="primary">[[item.Title]]</div>
-                <div class="shortText">[[item.SubTitle]]</div>
-                <div class="longText">[[item.Description]]</div>
-              </div>
-              
+        <paper-toolbar>
+        <paper-icon-button icon="menu" paper-drawer-toggle=""></paper-icon-button>
+        <div class="search-icon-wraper">
+          <iron-icon class="search-icon" icon="icons:search"></iron-icon>
+        </div>
+        <input class="flex search-input" id="input" on-keyup="search" placeholder="Search">
+        
+      </paper-toolbar>
+
+  <iron-ajax id="data-source" verbose="true" abcd="http://it-ebooks-api.info/v1/search/" url="http://it-ebooks-api.info/v1/search/head%20first" last-response="{{response}}" auto=""></iron-ajax>
+   
+    <iron-list id="list" items="[[response.Books]]" as="item">
+      <template>
+        <div on-tap="_collapseExpand">
+          <div class$="[[getClassForItem(item, item.ID)]]" tabindex="0">
+            <img class="avatar" src="[[item.Image]]">
+            <div class="pad">
+              <div class="primary">[[item.Title]]</div>
+              <div class="shortText">[[item.SubTitle]]</div>
+              <div class="longText">[[item.Description]]</div>
             </div>
+            
           </div>
-        </template>
-      </iron-list>
-  </template>
-  <script>
-      Polymer({
-        is: 'book-list',
-        behaviors: [
-          Polymer.NeonAnimatableBehavior
-        ],
-        properties: {
-          items: {
-            type: Array
-            },
-          api_url:{
-            type: String,
-            value: "http://it-ebooks-api.info/v1/search/"
+        </div>
+      </template>
+    </iron-list>
+</template>
+<script>
+    Polymer({
+      is: 'book-list',
+      behaviors: [
+        Polymer.NeonAnimatableBehavior
+      ],
+      properties: {
+        items: {
+          type: Array
           },
-          query:{
-            type: String,
-            observer: '_queryChanged'
-            },
-
-          animationConfig: {
-            type: Object,
-            value: function() {
-              return {
-                'entry': [{
-                  name: 'fade-in-animation',
-                  node: this.$.button
-                }],
-
-                'exit': [{
-                  name: 'fade-out-animation',
-                  node: this.$.button
-                }, {
-                  name: 'hero-animation',
-                  id: 'hero',
-                  fromPage: this
-                }]
-              };
-            }
-          }
-
+        api_url:{
+          type: String,
+          value: "http://it-ebooks-api.info/v1/search/"
         },
+        query:{
+          type: String
+          },
 
-        _collapseExpand: function(e) {
-          var list = this.$.list;
-          var index = e.model.index;
-          var isExpanded = list.items[index].expanded;
+        animationConfig: {
+          type: Object,
+          value: function() {
+            return {
+              'entry': [{
+                name: 'fade-in-animation',
+                node: this.$.button
+              }],
 
-          var itemData = list.items[index];
-          //console.log(e.target,e.model);
-          var target = e.target;
+              'exit': [{
+                name: 'fade-out-animation',
+                node: this.$.button
+              }, {
+                name: 'hero-animation',
+                id: 'hero',
+                fromPage: this
+              }]
+            };
+          }
+        }
+
+      },
+
+      _collapseExpand: function(e) {
+        var list = this.$.list;
+        var index = e.model.index;
+        var isExpanded = list.items[index].expanded;
+
+        var itemData = list.items[index];
+        //console.log(e.target,e.model);
+        var target = e.target;
 //          while (target !== this && !target._templateInstance) {
 //            target = target.parentNode;
 //          }
 
-          // configure the page animation
-          this.sharedElements = {
-            'hero': target,
-          };
-          this.fire('item-click',{
-            item :itemData 
-          });
+        // configure the page animation
+        this.sharedElements = {
+          'hero': target,
+        };
+        this.fire('item-click',{
+          item :itemData 
+        });
 
-          list.set('items.' + index + '.expanded', !isExpanded);
-          list.updateSizeForItem(e.model.index);
-        },
-        _queryChanged: function(newValue, oldValue){
-          var search_term = newValue;
-          var keywords = ["Ubuntu", "Head First", "Javascript", "PHP",
-          "Python", "HTML", "Ruby", "ASP", "Manual", "Windows", "Linux",
-          "Mac"];
-          var random = keywords[Math.floor(Math.random() * keywords.length)];
-          var url = this.api_url + encodeURIComponent(search_term ? search_term : random);
-          this.$["data-source"].url = url;
-          //console.log(random);
-        },
+        list.set('items.' + index + '.expanded', !isExpanded);
+        list.updateSizeForItem(e.model.index);
+      },
 
-        iconForItem: function(item) {
-          return item ? (item.integer < 50 ? 'star-border' : 'star') : '';
-        },
+      ready: function(){
+      // search onReady for showing random search results
+        this.search();
+      },
+
+      search: function(evt){
+        var search_term = this.$.input.value;
+        var keywords = ["Ubuntu", "Head First", "Javascript", "PHP",
+        "Python", "HTML", "Ruby", "ASP", "Manual", "Windows", "Linux",
+        "Mac", "Master", "Beginning", "wiki", "Dummies", "Advanced"];
+        var random = keywords[Math.floor(Math.random() * keywords.length)];
+        var url = this.api_url + encodeURIComponent(search_term ? search_term : random);
+        this.$["data-source"].url = url;
+        //console.log(random);
+      },
+
+      iconForItem: function(item) {
+        return item ? (item.integer < 50 ? 'star-border' : 'star') : '';
+      },
 
         getClassForItem: function(item, expanded) {
           return expanded ? 'item expanded' : 'item';

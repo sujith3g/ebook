@@ -5,24 +5,6 @@
       --paper-toolbar-background: var(--paper-teal-700);
       --paper-toolbar-color: white;
     }
-    .search-icon-wraper{
-      border-radius: 2px 0px 0px 2px;
-    }
-    .search-icon{
-      vertical-align: -webkit-baseline-middle;
-    }
-    .search-input{
-      border-radius: 0px 2px 2px 0px;
-      outline: none;
-    }
-    .search-icon-wraper,.search-input{
-      background:  var(--paper-teal-500);
-      color: white;
-      border: none;
-      font-size: 18px;
-      padding: 0 12px;
-      height: 36px;
-    }
     neon-animated-pages {
       #height: 100%;
     }
@@ -34,15 +16,6 @@
         </paper-toolbar>
       </paper-header-panel>
       <paper-header-panel main>
-        <paper-toolbar>
-          <paper-icon-button icon="menu" on-tap="menuAction" paper-drawer-toggle></paper-icon-button>
-          <div class="search-icon-wraper">
-            <iron-icon class="search-icon" icon="icons:search"></iron-icon>
-          </div>
-          <input class="flex search-input" id="input" on-keyup="search"
-          placeholder="Search">
-          <!--<paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>-->
-        </paper-toolbar>
         <!--<div class="center-center vertical layout">-->
         <neon-animated-pages class="fit" id="pages" selected="0">
           <book-list id="list_view" query="" on-item-click="_onItemClick"></book-list>
