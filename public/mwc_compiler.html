@@ -24855,9 +24855,12 @@ paper-calendar {
     _clickDownload: function(e){
       var url = e.currentTarget.url;
       Meteor.call("getLink", url, function(error, result){
-        if(error)
+      if(error){
           console.log(error);
-        else window.open(result);
+      }else{
+          window.location = result;
+          //window.open(result);
+      }
       //console.log(e.currentTarget.url);
       });
     }
