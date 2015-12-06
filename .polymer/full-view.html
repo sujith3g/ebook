@@ -96,7 +96,7 @@
           <paper-card >
             <div class="card-content">
               <div class="horizontal layout">
-                  <div class="img-wrapper flex">
+                <div class="img-wraper flex" id="img_wraper">
                   <img class="center-justified cover" src="{{response.Image}}"/>
                 </div>
               </div>
@@ -202,7 +202,10 @@
               name: 'hero-animation',
               id: 'hero',
               toPage: this
-            }],
+              },{
+              name: 'fade-in-animation',
+              node: this.$.img_wraper
+              }],
 
             'exit': [{
               name: 'fade-out-animation',
@@ -234,8 +237,12 @@
       },
     _clickDownload: function(e){
       var url = e.currentTarget.url;
-      window.open(url);
+      Meteor.call("getLink", url, function(error, result){
+        if(error)
+          console.log(error);
+        else window.open(result);
       //console.log(e.currentTarget.url);
+      });
     }
 
   });

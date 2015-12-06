@@ -151,6 +151,10 @@
         api_url:{
           type: String,
           value: "http://it-ebooks-api.info/v1/search/"
+          },
+        book_url: {
+          type: String,
+          value: "http://it-ebooks-api.info/v1/book/"
         },
         query:{
           type: String
@@ -201,6 +205,7 @@
         this.sharedElements = {
           'hero': target,
         };
+        document.querySelector("#api").url = this.book_url + itemData.ID;
         this.fire('item-click',{
           item :itemData 
         });

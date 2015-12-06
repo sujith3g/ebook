@@ -24611,7 +24611,7 @@ paper-calendar {
     },
     _onItemClick: function(e) {
       this.$.pages.selected = 1;
-      this.$.full_view.item = e.detail.item.ID;
+      //this.$.full_view.item = e.detail.item.ID;
       //console.log(e.detail.item.ID);
     },
     _onClose: function() {
@@ -24718,7 +24718,7 @@ paper-calendar {
           <paper-card>
             <div class="card-content">
               <div class="horizontal layout">
-                  <div class="img-wrapper flex">
+                <div class="img-wraper flex" id="img_wraper">
                   <img class="center-justified cover" src="{{response.Image}}">
                 </div>
               </div>
@@ -24819,7 +24819,10 @@ paper-calendar {
               name: 'hero-animation',
               id: 'hero',
               toPage: this
-            }],
+              },{
+              name: 'fade-in-animation',
+              node: this.$.img_wraper
+              }],
 
             'exit': [{
               name: 'fade-out-animation',
@@ -24851,8 +24854,12 @@ paper-calendar {
       },
     _clickDownload: function(e){
       var url = e.currentTarget.url;
-      window.open(url);
+      Meteor.call("getLink", url, function(error, result){
+        if(error)
+          console.log(error);
+        else window.open(result);
       //console.log(e.currentTarget.url);
+      });
     }
 
   });
@@ -25002,6 +25009,10 @@ paper-calendar {
         api_url:{
           type: String,
           value: "http://it-ebooks-api.info/v1/search/"
+          },
+        book_url: {
+          type: String,
+          value: "http://it-ebooks-api.info/v1/book/"
         },
         query:{
           type: String
@@ -25052,6 +25063,7 @@ paper-calendar {
         this.sharedElements = {
           'hero': target,
         };
+        document.querySelector("#api").url = this.book_url + itemData.ID;
         this.fire('item-click',{
           item :itemData 
         });
