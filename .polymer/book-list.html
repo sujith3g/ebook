@@ -7,7 +7,7 @@
         @apply(--paper-font-common-base);
       }
       paper-toolbar{
-          --paper-toolbar-background: var(--paper-teal-700);
+        --paper-toolbar-background: var(--paper-teal-700);
         --paper-toolbar-color: white;
       }
       iron-list {
@@ -103,8 +103,8 @@
     }
     </style>
         <paper-toolbar>
-        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-        <div class="search-icon-wraper">
+        <paper-icon-button icon="menu" on-tap="menu_tap" paper-drawer-toggle></paper-icon-button>
+        <div class="search-icon-wraper" id="search_icon_wrapper">
           <iron-icon class="search-icon" icon="icons:search"></iron-icon>
         </div>
         <input class="flex search-input" id="input" on-keyup="search"
@@ -162,13 +162,19 @@
             return {
               'entry': [{
                 name: 'fade-in-animation',
-                node: this.$.button
-              }],
+                node: this.$.input
+                },{
+                name: 'fade-in-animation',
+                node: this.$.search_icon_wraper
+                }],
 
               'exit': [{
                 name: 'fade-out-animation',
-                node: this.$.button
-              }, {
+                node: this.$.input
+                }, {
+                 name: 'fade-out-animation',
+                 node: this.$.search_icon_wraper
+                },{
                 name: 'hero-animation',
                 id: 'hero',
                 fromPage: this
@@ -217,6 +223,11 @@
         var url = this.api_url + encodeURIComponent(search_term ? search_term : random);
         this.$["data-source"].url = url;
         //console.log(random);
+      },
+
+      menu_tap: function(){
+        var drawer = document.querySelector("#drawer");
+        drawer.togglePanel();
       },
 
       iconForItem: function(item) {

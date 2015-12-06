@@ -24629,7 +24629,7 @@ paper-calendar {
       background: transparent!!important;
     }
     paper-toolbar{
-      --paper-toolbar-background: var(--paper-teal-500);
+      --paper-toolbar-background: var(--paper-teal-700);
       --paper-toolbar-color: white;
     }
     paper-item{
@@ -24708,7 +24708,7 @@ paper-calendar {
   <template>
     <iron-ajax id="api" verbose="true" url="" last-response="{{response}}" auto=""></iron-ajax>
     <paper-toolbar>
-    <div class="title">{{response.Title}}</div>
+    <div class="title" id="book_title">{{response.Title}}</div>
       <paper-icon-button id="button" class="end-justified" icon="clear" on-click="_onClearButtonClick"></paper-icon-button>
     </paper-toolbar>
 
@@ -24810,7 +24810,12 @@ paper-calendar {
             'entry': [{
               name: 'fade-in-animation',
               node: this.$.button
-            }, {
+              }, 
+              {
+              name: 'fade-in-animation',
+              node: this.$.book_title
+              }, 
+              {
               name: 'hero-animation',
               id: 'hero',
               toPage: this
@@ -24819,7 +24824,12 @@ paper-calendar {
             'exit': [{
               name: 'fade-out-animation',
               node: this.$.button
-            }, {
+              },
+              {
+              name: 'fade-out-animation',
+              node: this.$.book_title
+              },
+              {
               name: 'scale-down-animation',
               node: this.$.main,
               transformOrigin: '50% 50%',
@@ -24857,7 +24867,7 @@ paper-calendar {
         @apply(--paper-font-common-base);
       }
       paper-toolbar{
-          --paper-toolbar-background: var(--paper-teal-700);
+        --paper-toolbar-background: var(--paper-teal-700);
         --paper-toolbar-color: white;
       }
       iron-list {
@@ -24953,8 +24963,8 @@ paper-calendar {
     }
     </style>
         <paper-toolbar>
-        <paper-icon-button icon="menu" paper-drawer-toggle=""></paper-icon-button>
-        <div class="search-icon-wraper">
+        <paper-icon-button icon="menu" on-tap="menu_tap" paper-drawer-toggle=""></paper-icon-button>
+        <div class="search-icon-wraper" id="search_icon_wrapper">
           <iron-icon class="search-icon" icon="icons:search"></iron-icon>
         </div>
         <input class="flex search-input" id="input" on-keyup="search" placeholder="Search">
@@ -25003,13 +25013,19 @@ paper-calendar {
             return {
               'entry': [{
                 name: 'fade-in-animation',
-                node: this.$.button
-              }],
+                node: this.$.input
+                },{
+                name: 'fade-in-animation',
+                node: this.$.search_icon_wraper
+                }],
 
               'exit': [{
                 name: 'fade-out-animation',
-                node: this.$.button
-              }, {
+                node: this.$.input
+                }, {
+                 name: 'fade-out-animation',
+                 node: this.$.search_icon_wraper
+                },{
                 name: 'hero-animation',
                 id: 'hero',
                 fromPage: this
@@ -25058,6 +25074,11 @@ paper-calendar {
         var url = this.api_url + encodeURIComponent(search_term ? search_term : random);
         this.$["data-source"].url = url;
         //console.log(random);
+      },
+
+      menu_tap: function(){
+        var drawer = document.querySelector("#drawer");
+        drawer.togglePanel();
       },
 
       iconForItem: function(item) {

@@ -7,7 +7,7 @@
       background: transparent!!important;
     }
     paper-toolbar{
-      --paper-toolbar-background: var(--paper-teal-500);
+      --paper-toolbar-background: var(--paper-teal-700);
       --paper-toolbar-color: white;
     }
     paper-item{
@@ -86,7 +86,7 @@
   <template>
     <iron-ajax id="api" verbose="true" url="" last-response="{{response}}" auto></iron-ajax>
     <paper-toolbar>
-    <div class="title">{{response.Title}}</div>
+    <div class="title" id="book_title">{{response.Title}}</div>
       <paper-icon-button id="button" class="end-justified" icon="clear" on-click="_onClearButtonClick"></paper-icon-button>
     </paper-toolbar>
 
@@ -193,7 +193,12 @@
             'entry': [{
               name: 'fade-in-animation',
               node: this.$.button
-            }, {
+              }, 
+              {
+              name: 'fade-in-animation',
+              node: this.$.book_title
+              }, 
+              {
               name: 'hero-animation',
               id: 'hero',
               toPage: this
@@ -202,7 +207,12 @@
             'exit': [{
               name: 'fade-out-animation',
               node: this.$.button
-            }, {
+              },
+              {
+              name: 'fade-out-animation',
+              node: this.$.book_title
+              },
+              {
               name: 'scale-down-animation',
               node: this.$.main,
               transformOrigin: '50% 50%',
