@@ -8,12 +8,27 @@
     neon-animated-pages {
       #height: 100%;
     }
+    paper-item{
+      border: rgba(128, 128, 128, 0.25) solid;
+      border-width: 1px 0px 0px 0px;
+    }
+    iron-icon{
+      margin: 8px;
+      color: var(--paper-teal-700);
+    }
   </style>
    <paper-drawer-panel id="drawer">
       <paper-header-panel drawer>
         <paper-toolbar>
           <div class="title">Free eBooks</div>
         </paper-toolbar>
+        <div>
+      <paper-menu>
+        <paper-item><iron-icon icon="social:people"></iron-icon>Aboout</paper-item>
+        <paper-item><iron-icon icon="polymer"></iron-icon>Built with Polymer</paper-item>
+        <paper-item><iron-icon icon="social:people"></iron-icon>Open Source</paper-item>
+      </paper-menu>
+        </div>
       </paper-header-panel>
       <paper-header-panel main>
         <!--<div class="center-center vertical layout">-->
