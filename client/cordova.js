@@ -12,8 +12,13 @@ if (Meteor.isCordova) {
     lastBackButtonPress = null;
 
     function backbutton() {
-        if (lastBackButtonPress == null) lastBackButtonPress = moment().format("YYYY-MM-DD HH:mm:ss");
-        else {
+        if (lastBackButtonPress == null){
+          lastBackButtonPress = moment().format("YYYY-MM-DD HH:mm:ss");
+              var pages = document.querySelector("#pages");
+              if(pages.selected == 1){
+                pages.selected = 0;
+              }
+        }else {
             var A = moment().diff(moment(lastBackButtonPress, "YYYY-MM-DD HH:mm:ss"), "seconds");
 
             lastBackButtonPress = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -24,7 +29,13 @@ if (Meteor.isCordova) {
             }
 
             if (A < 2) navigator.notification.confirm("Do you really want to exit ?", onConfirm, "Warning", ["No", "Yes"]);
-            else navigator.app.backHistory();
+            else {
+              var pages = document.querySelector("#pages");
+              if(pages.selected == 1){
+                pages.selected = 0;
+              }
+              //navigator.app.backHistory();
+            }
         }
     }
 }

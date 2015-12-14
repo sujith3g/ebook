@@ -17,8 +17,8 @@
         --iron-list-items-container: {
           max-width: 800px;
           margin: auto;
-          margin-top: 60px;
-          margin-bottom: 60px;
+          margin-top: 10px;
+          margin-bottom: 10px;
           border-bottom: 1px solid #ddd;
         };
       }
@@ -102,8 +102,10 @@
       height: 36px;
     }
     </style>
+    <paper-header-panel>
         <paper-toolbar>
         <paper-icon-button icon="menu" on-tap="menu_tap" paper-drawer-toggle></paper-icon-button>
+        <!--<div class="title">Free Ebooks</div>-->
         <div class="search-icon-wraper" id="search_icon_wrapper">
           <iron-icon class="search-icon" icon="icons:search"></iron-icon>
         </div>
@@ -137,6 +139,7 @@
         </div>
       </template>
     </iron-list>
+    </paper-header-panel>
 </template>
 <script>
     Polymer({
@@ -160,32 +163,32 @@
           type: String
           },
 
-        animationConfig: {
-          type: Object,
-          value: function() {
-            return {
-              'entry': [{
-                name: 'fade-in-animation',
-                node: this.$.input
-                },{
-                name: 'fade-in-animation',
-                node: this.$.search_icon_wraper
-                }],
-
-              'exit': [{
-                name: 'fade-out-animation',
-                node: this.$.input
-                }, {
-                 name: 'fade-out-animation',
-                 node: this.$.search_icon_wraper
-                },{
-                name: 'hero-animation',
-                id: 'hero',
-                fromPage: this
-              }]
-            };
-          }
-        }
+//        animationConfig: {
+//          type: Object,
+//          value: function() {
+//            return {
+//              'entry': [{
+//                name: 'fade-in-animation',
+//                node: this.$.input
+//                },{
+//                name: 'fade-in-animation',
+//                node: this.$.search_icon_wraper
+//                }],
+//
+//              'exit': [{
+//                name: 'fade-out-animation',
+//                node: this.$.input
+//                }, {
+//                 name: 'fade-out-animation',
+//                 node: this.$.search_icon_wraper
+//                },{
+//                name: 'hero-animation',
+//                id: 'hero',
+//                fromPage: this
+//              }]
+//            };
+//          }
+//        }
 
       },
 
@@ -202,9 +205,9 @@
 //          }
 
         // configure the page animation
-        this.sharedElements = {
-          'hero': target,
-        };
+//        this.sharedElements = {
+//          'hero': target,
+//        };
         document.querySelector("#api").url = this.book_url + itemData.ID;
         this.fire('item-click',{
           item :itemData 

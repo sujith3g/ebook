@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <widget id="com.idt6wmaym3mcpy1g639if" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>eBook Search</name>
+  <name>Free Ebooks</name>
   <description>Android app for free IT ebooks.</description>
   <author href="http://hedcet.com/" email="sujith3g@gmail.com">Sujith G</author>
   <preference name="webviewbounce" value="false"/>

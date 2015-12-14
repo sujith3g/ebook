@@ -5,6 +5,7 @@
     :host {
       @apply(--layout-vertical);
       background: transparent!!important;
+      z-index: 2;
     }
     paper-toolbar{
       --paper-toolbar-background: var(--paper-teal-700);
@@ -23,14 +24,13 @@
     .main {
       background: white;
       @apply(--layout-flex);
-      @apply(--layout-scroll);
+      @apply(--layout-fit);
       @apply(--shadow-elevation-8dp);
     }
 
     .image-container {
       position: relative;
       width: 100%;
-      padding-bottom: 100%;
     }
 
     .image {
@@ -81,15 +81,18 @@
     .subtitle{
       padding: 5px;
     }
+    #book_title{
+      margin-left: 5px;
+    }
   </style>
 
   <template>
-    <iron-ajax id="api" verbose="true" url="" last-response="{{response}}" auto></iron-ajax>
+    <paper-header-panel>
     <paper-toolbar>
-    <div class="title" id="book_title">{{response.Title}}</div>
+      <div class="title" id="book_title">{{response.Title}}</div>
       <paper-icon-button id="button" class="end-justified" icon="clear" on-click="_onClearButtonClick"></paper-icon-button>
     </paper-toolbar>
-
+    <iron-ajax id="api" verbose="true" url="" last-response="{{response}}" auto></iron-ajax>
     <div id="main" class="main">
       <div class="image-container">
         <div class="image">
@@ -152,6 +155,7 @@
         </div>
       </div>
     </div>
+    </paper-header-panel>
 
   </template>
 
@@ -177,54 +181,54 @@
         type: String,
         value: "http://it-ebooks-api.info/v1/book/"
       },
-      sharedElements: {
-        type: Object,
-        value: function() {
-          return {
-            'hero': this.$.main
-          };
-        }
-      },
+//      sharedElements: {
+//        type: Object,
+//        value: function() {
+//          return {
+//            'hero': this.$.main
+//          };
+//        }
+//      },
 
-      animationConfig: {
-        type: Object,
-        value: function() {
-          return {
-            'entry': [{
-              name: 'fade-in-animation',
-              node: this.$.button
-              }, 
-              {
-              name: 'fade-in-animation',
-              node: this.$.book_title
-              }, 
-              {
-              name: 'hero-animation',
-              id: 'hero',
-              toPage: this
-              },{
-              name: 'fade-in-animation',
-              node: this.$.img_wraper
-              }],
-
-            'exit': [{
-              name: 'fade-out-animation',
-              node: this.$.button
-              },
-              {
-              name: 'fade-out-animation',
-              node: this.$.book_title
-              },
-              {
-              name: 'scale-down-animation',
-              node: this.$.main,
-              transformOrigin: '50% 50%',
-              axis: 'y'
-            }]
-
-          }
-        }
-      }
+//      animationConfig: {
+//        type: Object,
+//        value: function() {
+//          return {
+//            'entry': [{
+//              name: 'fade-in-animation',
+//              node: this.$.button
+//              }, 
+//              {
+//              name: 'fade-in-animation',
+//              node: this.$.book_title
+//              }, 
+//              {
+//              name: 'hero-animation',
+//              id: 'hero',
+//              toPage: this
+//              },{
+//              name: 'fade-in-animation',
+//              node: this.$.img_wraper
+//              }],
+//
+//            'exit': [{
+//              name: 'fade-out-animation',
+//              node: this.$.button
+//              },
+//              {
+//              name: 'fade-out-animation',
+//              node: this.$.book_title
+//              },
+//              {
+//              name: 'scale-down-animation',
+//              node: this.$.main,
+//              transformOrigin: '50% 50%',
+//              axis: 'y'
+//            }]
+//
+//          }
+//        }
+//      }
 
     },
 
@@ -241,8 +245,11 @@
       if(error){
           console.log(error);
       }else{
+        if(!Meteor.isCordova){
           window.location = result;
-          //window.open(result);
+        }else{
+          window.open(result, "_system");
+        }
       }
       //console.log(e.currentTarget.url);
       });
