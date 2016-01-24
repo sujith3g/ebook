@@ -114,23 +114,15 @@
       <paper-toolbar>
         <paper-icon-button icon="menu" on-tap="menu_tap" paper-drawer-toggle></paper-icon-button>
         <!--<div class="title">Free Ebooks</div>-->
+        <input class="flex search-input" id="input" on-keyup="search" placeholder="Search">
         <div class="search-icon-wraper" id="search_icon_wrapper">
           <iron-icon class="search-icon" icon="icons:search"></iron-icon>
         </div>
-        <input class="flex search-input" id="input" on-keyup="search" placeholder="Search">
-        <!--<paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>-->
       </paper-toolbar>
 
       <iron-ajax id="data-source" verbose="true" abcd="http://it-ebooks-api.info/v1/search/"
       url="http://it-ebooks-api.info/v1/search/head%20first" last-response="{{response}}"
       auto></iron-ajax>
-      <!-- <paper-toolbar>
-      <paper-icon-button icon="arrow-back" alt="Back"></paper-icon-button>
-      <div class="flex"></div>
-      <paper-icon-button icon="search" alt="Search"></paper-icon-button>
-      <paper-icon-button icon="more-vert" alt="More options"></paper-icon-button>
-      <div class="bottom title">Collapsable items using iron-list</div>
-      </paper-toolbar>-->
       <neon-animated-pages id="main_pages" selected="0" class="fit">
         <iron-list id="list" items="[[response.Books]]" as="item">
           <template>
