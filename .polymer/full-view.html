@@ -8,7 +8,7 @@
       z-index: 2;
     }
     paper-toolbar{
-      --paper-toolbar-background: var(--paper-teal-700);
+      --paper-toolbar-background: var(--paper-teal-500);
       --paper-toolbar-color: white;
     }
     paper-item{
@@ -77,9 +77,12 @@
     .description{
       text-indent: 30px;
       padding: 5px;
+      @apply(--paper-font-body1);
     }
     .subtitle{
       padding: 5px;
+      @apply(--paper-font-title);
+      white-space: normal !important;
     }
     #book_title{
       margin-left: 5px;

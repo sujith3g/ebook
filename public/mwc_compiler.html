@@ -24575,73 +24575,58 @@ paper-calendar {
 </dom-module>
 <dom-module id="book-search" assetpath="//">
   <template>
-  <style>
-    paper-toolbar{
-      --paper-toolbar-background: var(--paper-teal-700);
-      --paper-toolbar-color: white;
-    }
-    neon-animated-pages {
-      #height: 100%;
-    }
-    paper-item{
-      border: rgba(128, 128, 128, 0.25) solid;
-      border-width: 1px 0px 0px 0px;
-    }
-    iron-icon{
-      margin: 8px;
-      color: var(--paper-teal-700);
-    }
-    .menu-item{
-      cursor: pointer;
-    }
-  </style>
-   <paper-drawer-panel id="drawer">
+    <style>
+      paper-toolbar {
+        --paper-toolbar-background: var(--paper-teal-700);
+        --paper-toolbar-color: white;
+      }
+      
+      paper-item {
+        border: rgba(128, 128, 128, 0.25) solid;
+        border-width: 1px 0px 0px 0px;
+      }
+      
+      iron-icon {
+        margin: 8px;
+        color: var(--paper-teal-700);
+      }
+      
+      .menu-item {
+        cursor: pointer;
+      }
+    </style>
+    <paper-drawer-panel id="drawer">
       <paper-header-panel drawer="">
         <paper-toolbar>
           <div class="title">Free eBooks</div>
         </paper-toolbar>
         <div>
-        <paper-menu class="flex layout vertical-reverse fit">
-          <paper-item class="menu-item"><iron-icon icon="info"></iron-icon>Aboout</paper-item>
-          <paper-item on-click="_onPolymerClick" class="menu-item"><iron-icon icon="polymer"></iron-icon>Built with Polymer</paper-item>
-          <paper-item class="menu-item" on-click="_onOpenSourceClick"><iron-icon icon="social:people"></iron-icon>Open Source</paper-item>
-        </paper-menu>
+          <paper-menu class="flex layout vertical-reverse fit">
+            <paper-item class="menu-item">
+              <iron-icon icon="info"></iron-icon>Aboout</paper-item>
+            <paper-item on-click="_onPolymerClick" class="menu-item">
+              <iron-icon icon="polymer"></iron-icon>Built with Polymer</paper-item>
+            <paper-item class="menu-item" on-click="_onOpenSourceClick">
+              <iron-icon icon="social:people"></iron-icon>Open Source</paper-item>
+          </paper-menu>
         </div>
       </paper-header-panel>
-      
-        
-        <neon-animated-pages class="fit" id="pages" selected="0" main="">
-          <book-list id="list_view" query="" on-item-click="_onItemClick"></book-list>
-          <full-view on-close="_onClose" id="full_view"></full-view>
-        </neon-animated-pages>
-          
-        
+      <div class="fit" id="pages" selected="0" main="">
+        <book-list id="list_view" query=""></book-list>
+      </div>
     </paper-drawer-panel>
 
   </template>
   <script>
-  Polymer({
-    is: 'book-search',
-    search: function(evt){
-      //console.log(this.$);
-      this.$.list_view.query = this.$.input.value;
-      //console.log(this.$.input.value);
-    },
-    _onItemClick: function(e) {
-      this.$.pages.selected = 1;
-      //this.$.full_view.item = e.detail.item.ID;
-      //console.log(e.detail.item.ID);
-    },
-    _onPolymerClick: function(evt){
-      window.open("https://www.polymer-project.org","_system");
-    },
-    _onOpenSourceClick: function(evt){
-      window.open("https://github.com/sujith3g/ebook","_system");
-    },
-    _onClose: function() {
-      this.$.pages.selected = 0;
-    }
-  });
+    Polymer({
+      is: 'book-search',
+      _onPolymerClick: function(evt) {
+        window.open("https://www.polymer-project.org", "_system");
+      },
+      _onOpenSourceClick: function(evt) {
+        window.open("https://github.com/sujith3g/ebook", "_system");
+      }
+    });
   </script>
 </dom-module>
 <dom-module id="full-view" assetpath="//">
@@ -24654,7 +24639,7 @@ paper-calendar {
       z-index: 2;
     }
     paper-toolbar{
-      --paper-toolbar-background: var(--paper-teal-700);
+      --paper-toolbar-background: var(--paper-teal-500);
       --paper-toolbar-color: white;
     }
     paper-item{
@@ -24723,9 +24708,12 @@ paper-calendar {
     .description{
       text-indent: 30px;
       padding: 5px;
+      @apply(--paper-font-body1);
     }
     .subtitle{
       padding: 5px;
+      @apply(--paper-font-title);
+      white-space: normal !important;
     }
     #book_title{
       margin-left: 5px;
@@ -24907,10 +24895,12 @@ paper-calendar {
         @apply(--layout-vertical);
         @apply(--paper-font-common-base);
       }
-      paper-toolbar{
+      
+      paper-toolbar {
         --paper-toolbar-background: var(--paper-teal-700);
         --paper-toolbar-color: white;
       }
+      
       iron-list {
         background-color: var(--paper-grey-200, #eee);
         padding-top: 1px;
@@ -24921,25 +24911,25 @@ paper-calendar {
           margin-top: 10px;
           margin-bottom: 10px;
           border-bottom: 1px solid #ddd;
-        };
+        }
+        ;
       }
-
+      
       .item {
         @apply(--layout-horizontal);
         padding: 20px;
         background-color: white;
         border: 1px solid #ddd;
         border-radius: 2px;
-
         cursor: pointer;
         margin-bottom: 10px;
       }
-
+      
       .item:focus {
         outline: 0;
         border-color: #666;
       }
-
+      
       .avatar {
         height: 130px;
         width: 100px;
@@ -24947,64 +24937,70 @@ paper-calendar {
         background-color: #DDD;
         vertical-align: -webkit-baseline-middle;
       }
-
+      
       .pad {
         padding: 0 16px;
         @apply(--layout-flex);
         @apply(--layout-vertical);
       }
-
+      
       .primary {
         font-size: 16px;
         font-weight: bold;
       }
-
-      .shortText, .longText {
+      
+      .shortText,
+      .longText {
         font-size: 14px;
       }
-
+      
       .longText {
         color: gray;
         display: none;
       }
-
+      
       .item:hover .shortText::after {
         ##content: ' [+]';
         color: gray;
       }
-
+      
       .item.expanded:hover .shortText::after {
         content: '';
       }
-
+      
       .item.expanded .longText {
         display: block;
       }
-
+      
       .item.expanded:hover .longText::after {
         ##content: ' [–]';
       }
-      .search-icon-wraper{
-      border-radius: 2px 0px 0px 2px;
-    }
-    .search-icon{
-      vertical-align: -webkit-baseline-middle;
-    }
-    .search-input{
-      border-radius: 0px 2px 2px 0px;
-      outline: none;
-    }
-    .search-icon-wraper,.search-input{
-      background:  var(--paper-teal-500);
-      color: white;
-      border: none;
-      font-size: 18px;
-      padding: 0 12px;
-      height: 36px;
-    }
+      
+      .search-icon-wraper {
+        border-radius: 2px 0px 0px 2px;
+      }
+      
+      .search-icon {
+        vertical-align: -webkit-baseline-middle;
+      }
+      
+      .search-input {
+        border-radius: 0px 2px 2px 0px;
+        outline: none;
+      }
+      
+      .search-icon-wraper,
+      .search-input {
+        background: var(--paper-teal-500);
+        color: white;
+        border: none;
+        font-size: 18px;
+        padding: 0 12px;
+        height: 36px;
+      }
     </style>
     <paper-header-panel>
-        <paper-toolbar>
+      <paper-toolbar>
         <paper-icon-button icon="menu" on-tap="menu_tap" paper-drawer-toggle=""></paper-icon-button>
         
         <div class="search-icon-wraper" id="search_icon_wrapper">
@@ -25014,26 +25010,29 @@ paper-calendar {
         
       </paper-toolbar>
 
-  <iron-ajax id="data-source" verbose="true" abcd="http://it-ebooks-api.info/v1/search/" url="http://it-ebooks-api.info/v1/search/head%20first" last-response="{{response}}" auto=""></iron-ajax>
-   
-    <iron-list id="list" items="[[response.Books]]" as="item">
-      <template>
-        <div on-tap="_collapseExpand">
-          <div class$="[[getClassForItem(item, item.ID)]]" tabindex="0">
-            <img class="avatar" src="[[item.Image]]">
-            <div class="pad">
-              <div class="primary">[[item.Title]]</div>
-              <div class="shortText">[[item.SubTitle]]</div>
-              <div class="longText">[[item.Description]]</div>
+      <iron-ajax id="data-source" verbose="true" abcd="http://it-ebooks-api.info/v1/search/" url="http://it-ebooks-api.info/v1/search/head%20first" last-response="{{response}}" auto=""></iron-ajax>
+      
+      <neon-animated-pages id="main_pages" selected="0" class="fit">
+        <iron-list id="list" items="[[response.Books]]" as="item">
+          <template>
+            <div on-tap="_collapseExpand">
+              <div class$="[[getClassForItem(item, item.ID)]]" tabindex="0">
+                <img class="avatar" src="[[item.Image]]">
+                <div class="pad">
+                  <div class="primary">[[item.Title]]</div>
+                  <div class="shortText">[[item.SubTitle]]</div>
+                  <div class="longText">[[item.Description]]</div>
+                </div>
+                
+              </div>
             </div>
-            
-          </div>
-        </div>
-      </template>
-    </iron-list>
+          </template>
+        </iron-list>
+        <full-view on-close="_onClose" id="full_view"></full-view>
+      </neon-animated-pages>
     </paper-header-panel>
-</template>
-<script>
+  </template>
+  <script>
     Polymer({
       is: 'book-list',
       behaviors: [
@@ -25042,45 +25041,45 @@ paper-calendar {
       properties: {
         items: {
           type: Array
-          },
-        api_url:{
+        },
+        api_url: {
           type: String,
           value: "http://it-ebooks-api.info/v1/search/"
-          },
+        },
         book_url: {
           type: String,
           value: "http://it-ebooks-api.info/v1/book/"
         },
-        query:{
+        query: {
           type: String
-          },
+        },
 
-//        animationConfig: {
-//          type: Object,
-//          value: function() {
-//            return {
-//              'entry': [{
-//                name: 'fade-in-animation',
-//                node: this.$.input
-//                },{
-//                name: 'fade-in-animation',
-//                node: this.$.search_icon_wraper
-//                }],
-//
-//              'exit': [{
-//                name: 'fade-out-animation',
-//                node: this.$.input
-//                }, {
-//                 name: 'fade-out-animation',
-//                 node: this.$.search_icon_wraper
-//                },{
-//                name: 'hero-animation',
-//                id: 'hero',
-//                fromPage: this
-//              }]
-//            };
-//          }
-//        }
+        //        animationConfig: {
+        //          type: Object,
+        //          value: function() {
+        //            return {
+        //              'entry': [{
+        //                name: 'fade-in-animation',
+        //                node: this.$.input
+        //                },{
+        //                name: 'fade-in-animation',
+        //                node: this.$.search_icon_wraper
+        //                }],
+        //
+        //              'exit': [{
+        //                name: 'fade-out-animation',
+        //                node: this.$.input
+        //                }, {
+        //                 name: 'fade-out-animation',
+        //                 node: this.$.search_icon_wraper
+        //                },{
+        //                name: 'hero-animation',
+        //                id: 'hero',
+        //                fromPage: this
+        //              }]
+        //            };
+        //          }
+        //        }
 
       },
 
@@ -25092,40 +25091,45 @@ paper-calendar {
         var itemData = list.items[index];
         //console.log(e.target,e.model);
         var target = e.target;
-//          while (target !== this && !target._templateInstance) {
-//            target = target.parentNode;
-//          }
+        //          while (target !== this && !target._templateInstance) {
+        //            target = target.parentNode;
+        //          }
 
         // configure the page animation
-//        this.sharedElements = {
-//          'hero': target,
-//        };
+        //        this.sharedElements = {
+        //          'hero': target,
+        //        };
         document.querySelector("#api").url = this.book_url + itemData.ID;
-        this.fire('item-click',{
-          item :itemData 
-        });
+        this.$.main_pages.selected = 1;
+        //        this.fire('item-click', {
+        //          item: itemData
+        //        });
 
         list.set('items.' + index + '.expanded', !isExpanded);
         list.updateSizeForItem(e.model.index);
       },
 
-      ready: function(){
-      // search onReady for showing random search results
+      ready: function() {
+        // search onReady for showing random search results
         this.search();
       },
 
-      search: function(evt){
+      search: function(evt) {
         var search_term = this.$.input.value;
         var keywords = ["Ubuntu", "Head First", "Javascript", "PHP",
-        "Python", "HTML", "Ruby", "ASP", "Manual", "Windows", "Linux",
-        "Mac", "Master", "Beginning", "wiki", "Dummies", "Advanced"];
+          "Python", "HTML", "Ruby", "ASP", "Manual", "Windows",
+          "Linux",
+          "Mac", "Master", "Beginning", "wiki", "Dummies", "Advanced"
+        ];
         var random = keywords[Math.floor(Math.random() * keywords.length)];
-        var url = this.api_url + encodeURIComponent(search_term ? search_term : random);
+        var url = this.api_url + encodeURIComponent(search_term ?
+          search_term : random);
         this.$["data-source"].url = url;
+        this.$.main_pages.selected = 0;
         //console.log(random);
       },
 
-      menu_tap: function(){
+      menu_tap: function() {
         var drawer = document.querySelector("#drawer");
         drawer.togglePanel();
       },
@@ -25134,10 +25138,13 @@ paper-calendar {
         return item ? (item.integer < 50 ? 'star-border' : 'star') : '';
       },
 
-        getClassForItem: function(item, expanded) {
-          return expanded ? 'item expanded' : 'item';
-        }
-      });
+      getClassForItem: function(item, expanded) {
+        return expanded ? 'item expanded' : 'item';
+      },
+      _onClose: function() {
+        this.$.main_pages.selected = 0;
+      }
+    });
   </script>
 </dom-module>
 </div></body></html>
