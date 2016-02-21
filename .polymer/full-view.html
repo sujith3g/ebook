@@ -95,7 +95,8 @@
       <div class="title" id="book_title">{{response.Title}}</div>
       <paper-icon-button id="button" class="end-justified" icon="clear" on-click="_onClearButtonClick"></paper-icon-button>
     </paper-toolbar>
-    <iron-ajax id="api" verbose="true" url="" last-response="{{response}}" auto></iron-ajax>
+    <iron-ajax id="api" verbose="true" url="" last-response="{{response}}" auto
+     on-request="before_request" on-response="handle_response"></iron-ajax>
     <div id="main" class="main">
       <div class="image-container">
         <div class="image">
@@ -233,6 +234,13 @@
 //        }
 //      }
 
+    },
+    before_request: function(){
+      document.querySelector("load-awesome").active=true;
+    },
+
+    handle_response: function(){
+      document.querySelector("load-awesome").active=false;
     },
 
     _onClearButtonClick: function() {

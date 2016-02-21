@@ -4,3 +4,5 @@
 *.swp
 *.swo
 *.swn
+public/mwc_compiler.html
+.polymer/mwc_compiler.html

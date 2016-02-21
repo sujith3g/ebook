@@ -122,7 +122,8 @@
 
       <iron-ajax id="data-source" verbose="true" abcd="http://it-ebooks-api.info/v1/search/"
       url="http://it-ebooks-api.info/v1/search/head%20first" last-response="{{response}}"
-      auto></iron-ajax>
+      auto on-response="handle_response" on-request="before_request"
+      debounce-duration="300"></iron-ajax>
       <neon-animated-pages id="main_pages" selected="0" class="fit">
         <iron-list id="list" items="[[response.Books]]" as="item">
           <template>
@@ -243,6 +244,14 @@
       menu_tap: function() {
         var drawer = document.querySelector("#drawer");
         drawer.togglePanel();
+      },
+
+      before_request: function(){
+        document.querySelector("load-awesome").active=true;
+      },
+
+      handle_response: function(){
+        document.querySelector("load-awesome").active=false;
       },
 
       iconForItem: function(item) {

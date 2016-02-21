@@ -20,7 +20,6 @@
 
         "bower_components/paper-button/paper-button.html",
         "bower_components/paper-card/paper-card.html",
-        "bower_components/paper-date-picker/paper-date-picker.html",
         "bower_components/paper-dialog/paper-dialog.html",
         "bower_components/paper-drawer-panel/paper-drawer-panel.html",
         "bower_components/paper-fab/paper-fab.html",
@@ -39,7 +38,8 @@
         "bower_components/paper-toolbar/paper-toolbar.html",
 
         "book-search.html",
+        "book-list.html",
         "full-view.html",
-        "book-list.html"
+        "load-awesome.html"
     ]
 }
